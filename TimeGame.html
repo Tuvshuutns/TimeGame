@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Bebas Neue", sans-serif;
+      }
+      .bg {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+      .bgimg {
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        position: absolute;
+        z-index: -1;
+      }
+      .container {
+        width: 600px;
+        height: 450px;
+        display: flex;
+        flex-direction: column;
+        background-color: #c2c2c2;
+        border: 1.5px solid #ddd;
+        border-radius: 10px;
+        margin-left: 400px;
+      }
+      .numbers {
+        width: 100%;
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+        border: solid 3px #cfcccc;
+        border-radius: 10px;
+        font-size: 120px;
+      }
+      .content {
+        width: 100%;
+        height: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 40px;
+        font-size: 40px;
+        color: rgb(180, 88, 88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+      }
+      .btn {
+        width: 40%;
+        height: 80%;
+        background-color: black;
+        color: #ddd;
+        cursor: pointer;
+        border-radius: 30px;
+        border: 4px solid #cfcccc;
+        font-size: 50px;
+        transition: transform 0.3s ease, box-shadow 0.2s ease;
+      }
+      .btn:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.442);
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const bg = document.createElement("div");
+      bg.classList.add("bg");
+
+      const bgimg = document.createElement("img");
+      bgimg.classList.add("bgimg");
+      bgimg.src = "timebg.jpg";
+
+      const container = document.createElement("div");
+      container.classList.add("container");
+
+      const numbers = document.createElement("div");
+      numbers.classList.add("numbers");
+      numbers.textContent = "00:00:00";
+
+      const content = document.createElement("div");
+      content.classList.add("content");
+
+      const btn = document.createElement("button");
+      btn.classList.add("btn");
+      btn.textContent = "START";
+
+      const bton = document.createElement("button");
+      bton.classList.add("btn");
+      bton.textContent = "STOP";
+
+      content.appendChild(btn);
+      content.appendChild(bton);
+      container.appendChild(numbers);
+      container.appendChild(content);
+      bg.appendChild(container);
+      bg.appendChild(bgimg);
+      document.body.appendChild(bg);
+
+      let minutes = 0;
+      let seconds = 0;
+      let doil = 0; //
+      let interval = null;
+      let running = false;
+
+      function updateDisplay() {
+        let m = minutes < 10 ? "0" + minutes : minutes;
+        let s = seconds < 10 ? "0" + seconds : seconds;
+        let d = doil < 10 ? "0" + doil : doil;
+        numbers.textContent = `${m}:${s}:${d}`;
+      }
+
+      function startTimer() {
+        if (!running) {
+          running = true;
+          interval = setInterval(() => {
+            doil++;
+            if (doil === 100) {
+              doil = 0;
+              seconds++;
+            }
+            if (seconds === 60) {
+              seconds = 0;
+              minutes++;
+            }
+            updateDisplay();
+          }, 10);
+        }
+      }
+
+      function stopTimer() {
+        running = false;
+        clearInterval(interval);
+      }
+
+      btn.addEventListener("click", startTimer);
+      bton.addEventListener("click", stopTimer);
+
+      updateDisplay();
+    </script>
+  </body>
+</html>
